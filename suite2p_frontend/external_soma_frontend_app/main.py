@@ -13,6 +13,10 @@ def _can_import_suite2p() -> bool:
 
 
 def _maybe_relaunch_in_suite2p_env() -> None:
+    if getattr(sys, "frozen", False):
+        # Packaged app builds should launch directly. Processing scripts can still
+        # use the external suite2p environment configured elsewhere in the app.
+        return
     if _can_import_suite2p():
         return
     if os.environ.get("SUITE2P_FRONTEND_RELAUNCH") == "1":

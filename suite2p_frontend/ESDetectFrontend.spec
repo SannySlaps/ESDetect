@@ -2,7 +2,8 @@
 # This bundles the desktop UI as a standalone app while still allowing
 # processing subprocesses to use an external suite2p Python environment.
 
-from PyInstaller.utils.hooks import Tree, collect_submodules
+from pathlib import Path
+from PyInstaller.utils.hooks import collect_submodules
 
 hiddenimports = [
     "tkinter",
@@ -21,13 +22,26 @@ for pkg in ("PIL", "matplotlib", "numpy", "scipy", "openpyxl"):
     except Exception:
         pass
 
-datas = [
-    Tree("../suite2p_sandbox/scripts", prefix="suite2p_sandbox/scripts"),
-    Tree("../suite2p_sandbox/configs", prefix="suite2p_sandbox/configs"),
-    Tree("../suite2p_sandbox/external", prefix="suite2p_sandbox/external"),
-    Tree("./presets", prefix="suite2p_frontend/presets"),
-    Tree("../Acquisition and Stim", prefix="Acquisition and Stim"),
-]
+SPEC_DIR = Path.cwd()
+
+
+def collect_tree(src_rel, dest_root):
+    src_root = (SPEC_DIR / src_rel).resolve()
+    collected = []
+    for path in src_root.rglob("*"):
+        if path.is_file():
+            rel_parent = path.parent.relative_to(src_root)
+            target_dir = Path(dest_root) / rel_parent
+            collected.append((str(path), str(target_dir).replace("\\", "/")))
+    return collected
+
+
+datas = []
+datas += collect_tree("../suite2p_sandbox/scripts", "suite2p_sandbox/scripts")
+datas += collect_tree("../suite2p_sandbox/configs", "suite2p_sandbox/configs")
+datas += collect_tree("../suite2p_sandbox/external", "suite2p_sandbox/external")
+datas += collect_tree("./presets", "suite2p_frontend/presets")
+datas += collect_tree("../Acquisition and Stim", "Acquisition and Stim")
 
 a = Analysis(
     ["external_soma_frontend_app/main.py"],

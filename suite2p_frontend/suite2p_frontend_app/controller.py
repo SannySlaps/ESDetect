@@ -2485,6 +2485,7 @@ class Suite2pController:
         overwrite_existing: bool = True,
         require_outputs: bool = True,
         unfinished_only: bool = False,
+        move_completed_after_copy: bool = False,
     ) -> dict[str, object]:
         preview = self.preview_session_transfer(
             source_root,
@@ -2497,6 +2498,7 @@ class Suite2pController:
         target.mkdir(parents=True, exist_ok=True)
 
         copied: list[dict[str, str]] = []
+        moved: list[dict[str, str]] = []
         skipped: list[dict[str, str]] = []
         failed: list[dict[str, str]] = []
 
@@ -2519,6 +2521,15 @@ class Suite2pController:
                     shutil.rmtree(destination)
                 shutil.copytree(session, destination)
                 copied.append({"session": str(session), "destination": str(destination)})
+                if move_completed_after_copy:
+                    status = str(self.load_session_curation_status(session).get("status", "not_started")).strip().lower()
+                    if status == "completed":
+                        try:
+                            session.relative_to(source)
+                        except Exception as exc:
+                            raise RuntimeError(f"Refusing to remove source path outside source root: {session}") from exc
+                        shutil.rmtree(session)
+                        moved.append({"session": str(session), "destination": str(destination), "status": status})
             except Exception as exc:
                 failed.append({"session": str(session), "destination": str(destination), "reason": str(exc)})
 
@@ -2526,15 +2537,17 @@ class Suite2pController:
             "source_root": str(source),
             "target_root": str(target),
             "copied_sessions": copied,
+            "moved_sessions": moved,
             "skipped_sessions": skipped,
             "failed_sessions": failed,
             "overwrite_existing": bool(overwrite_existing),
             "require_outputs": bool(require_outputs),
             "unfinished_only": bool(unfinished_only),
+            "move_completed_after_copy": bool(move_completed_after_copy),
         }
         self.log(
             "Session transfer finished. "
-            f"Copied: {len(copied)}. Skipped: {len(skipped)}. Failed: {len(failed)}."
+            f"Copied: {len(copied)}. Moved: {len(moved)}. Skipped: {len(skipped)}. Failed: {len(failed)}."
         )
         return result
 

@@ -44,6 +44,44 @@ Custom Suite2p / ESDetect desktop app for:
 - review overlays / figures
 - export summaries and reports
 
+## Platform caveats
+
+### Windows build
+- This is the primary full-feature build target.
+- Intended to include:
+  - acquisition launching
+  - batch run management
+  - processing execution
+  - Windows-specific setup utilities
+  - curation and downstream tools
+- Best choice for:
+  - running ESDetect end-to-end
+  - managing local processing environments
+  - acquisition/workstation use
+- Caveat:
+  - packaged builds still rely on a usable external `suite2p` Python environment for subprocess-based processing tasks.
+
+### Mac build
+- This is the secondary build target.
+- Intended primarily for:
+  - ROI curation
+  - post-run review
+  - exports
+  - portable-drive workflow
+  - likely video/overlay rendering if OpenCV codec support is present
+- Do not assume feature parity with the Windows build for:
+  - acquisition launching
+  - batch processing
+  - Windows-only setup utilities
+  - local processing environment management
+- Best choice for:
+  - reviewing and curating already processed sessions copied from the Windows workstation
+  - downstream analysis on a portable/external-drive workflow
+- Caveats:
+  - `.app` must be built on macOS.
+  - OpenCV MP4 writing should be validated on the target Mac.
+  - manual ROI add still requires the retained `data.bin` to be present in the session copy.
+
 ## Environment files
 
 Frontend / curation / downstream:

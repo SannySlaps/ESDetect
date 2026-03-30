@@ -1,73 +1,67 @@
-# Suite2p Frontend
+# suite2p_frontend
 
-This is a separate desktop app that keeps the general feel of the CaImAn
-frontend while using the `suite2p_sandbox` backend.
+This folder contains the desktop frontend code used by ESDetect.
 
-The current version focuses on:
+## What is here
 
-- running one session or a queued set of sessions from session folders
-- launching Suite2p with the dedicated `suite2p` conda environment
-- exporting review artifacts automatically
-- opening the Suite2p GUI or generated output folders
-- reloading an older run directory or a saved output folder later for review
-- exposing key Suite2p runtime, motion, detection, and biological parameters
-- parameter definitions and workflow help
-- optional email notifications for background actions
+- `external_soma_frontend_app/`
+  - the ESDetect-oriented frontend app
+- `suite2p_frontend_app/`
+  - the base Suite2p-oriented frontend code
+- `launch_ESDetect_frontend.cmd`
+  - Windows launcher for source-based use
+- `launch_ESDetect_frontend_mac.command`
+  - macOS launcher for source-based use
+- `ESDetectFrontend.spec`
+  - PyInstaller spec used to build packaged apps
+- `build_ESDetect_frontend_exe.ps1`
+  - Windows packaging helper
+- `build_ESDetect_frontend_mac.command`
+  - macOS packaging helper
 
-It does not modify the production CaImAn app.
+## Source launch
 
-## Launch
-
-From PowerShell:
+Windows:
 
 ```powershell
-conda activate suite2p
-python ".\Integrated Calcium Workflow\suite2p_frontend\suite2p_frontend_app\main.py"
+.\launch_ESDetect_frontend.cmd
 ```
 
-## Current workflow
+macOS:
 
-The current app layout is:
+```bash
+chmod +x ./launch_ESDetect_frontend_mac.command
+./launch_ESDetect_frontend_mac.command
+```
 
-- `Run Manager`
-- `Analysis Parameters`
-- `Video Previews`
-- `Post-Run`
-- `Notifications`
-- `Definitions`
-- `Help`
+You can also run from Python directly if you already have the right environment:
 
-Recommended flow:
+```powershell
+python .\external_soma_frontend_app\main.py
+```
 
-1. In `Run Manager`, either:
-   - select one `Session_###` folder and use `Run From Session`
-   - or queue one or more sessions for sequential processing
-2. In `Analysis Parameters`, load or save a parameter preset if needed
-3. In `Video Previews`, re-render or open the generated videos with per-video settings
-4. In `Post-Run`, reopen older results, review QC artifacts, export downstream files, and build project-level summaries
-5. In `Notifications`, save SMTP settings and send a test email if desired
-6. In `Definitions` and `Help`, use the built-in reference material while tuning or troubleshooting
+## Packaging
 
-For later review of an older result:
+Windows:
 
-1. Use `Load Run Dir` if you still have the prepared run folder
-2. Or use `Load Output Folder` and point it at:
-   - `plane0`
-   - `suite2p`
-   - or the parent `outputs` folder
+```powershell
+conda activate esdetect-frontend
+pip install pyinstaller
+.\build_ESDetect_frontend_exe.ps1
+```
 
-Prepared run metadata lives under each session:
+macOS:
 
-- `Session_###\suite2p_runs`
+```bash
+conda activate esdetect-frontend
+pip install pyinstaller
+chmod +x ./build_ESDetect_frontend_mac.command
+./build_ESDetect_frontend_mac.command
+```
 
-Durable session outputs are written back under the session analysis folder on the HDD, typically:
+## Notes
 
-- `Session_###\analysis\outputs\suite2p\plane0`
-
-Shared Suite2p information lives under:
-
-- `D:\Scientifica\suite2p_information`
-
-SSD temp files are written under:
-
-- `C:\Users\tur83376\suite2p\temp`
+- The frontend is intended to be shareable across machines.
+- Avoid treating workstation-specific paths as fixed requirements.
+- Default data roots such as `D:\Scientifica` or local temp locations are only defaults and can vary by machine.
+- For broader workflow guidance, use the top-level repo `README.md`.

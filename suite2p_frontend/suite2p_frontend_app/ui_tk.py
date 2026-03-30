@@ -2721,7 +2721,8 @@ class Suite2pFrontendApp(tk.Tk):
         import_box.grid(row=4, column=0, sticky="ew", pady=(0, 12))
         ttk.Label(
             import_box,
-            text="Copy updated session folders back from the portable drive to the desktop / master root after Mac-side curation or downstream work.",
+            text="Update the desktop / master root from the portable drive after Mac-side curation or downstream work. "
+                 "Completed sessions are moved off the portable drive after a successful update; unfinished sessions are copied back and kept on the portable drive.",
             justify="left",
             wraplength=1000,
         ).grid(row=0, column=0, columnspan=2, sticky="w", pady=(0, 8))
@@ -4122,7 +4123,7 @@ class Suite2pFrontendApp(tk.Tk):
             portable_root,
             master_root,
             require_outputs=bool(self._vars["transfer_require_outputs"].get()),
-            unfinished_only=bool(self._vars["transfer_unfinished_only"].get()),
+            unfinished_only=False,
         )
         count = int(report.get("session_count", 0))
         existing = int(report.get("existing_destination_count", 0))
@@ -4148,12 +4149,14 @@ class Suite2pFrontendApp(tk.Tk):
             master_root,
             overwrite_existing=overwrite,
             require_outputs=bool(self._vars["transfer_require_outputs"].get()),
-            unfinished_only=bool(self._vars["transfer_unfinished_only"].get()),
+            unfinished_only=False,
+            move_completed_after_copy=True,
         )
         copied = len(result.get("copied_sessions", []))
+        moved = len(result.get("moved_sessions", []))
         skipped = len(result.get("skipped_sessions", []))
         failed = len(result.get("failed_sessions", []))
-        self.status_var.set(f"Imported sessions from portable. Copied: {copied}. Skipped: {skipped}. Failed: {failed}.")
+        self.status_var.set(f"Updated desktop from portable. Copied: {copied}. Moved completed: {moved}. Skipped: {skipped}. Failed: {failed}.")
 
     def _ensure_loaded_run(self) -> None:
         run_dir = self._vars["run_dir"].get().strip()

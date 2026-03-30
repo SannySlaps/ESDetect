@@ -1,3 +1,13 @@
-﻿Set-Location 'C:\Users\tur83376\OneDrive - Temple University\Coding Rig\Integrated Calcium Workflow\Acquisition and Stim'
-& 'C:\Users\tur83376\OneDrive - Temple University\Coding Rig\Integrated Calcium Workflow\Acquisition and Stim\venv\Scripts\python.exe' 'C:\Users\tur83376\OneDrive - Temple University\Coding Rig\Integrated Calcium Workflow\Acquisition and Stim\Calcium_Imaging_copy.py'
+$ErrorActionPreference = 'Stop'
 
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$appMain = Join-Path $scriptDir 'Calcium_Imaging_copy.py'
+$venvPython = Join-Path $scriptDir 'venv\Scripts\python.exe'
+
+Set-Location $scriptDir
+
+if (Test-Path $venvPython) {
+    & $venvPython $appMain
+} else {
+    python $appMain
+}

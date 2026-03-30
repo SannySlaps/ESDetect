@@ -12,14 +12,14 @@ if ($Clean) {
     if (Test-Path ".\\dist") { Remove-Item ".\\dist" -Recurse -Force }
 }
 
-$pyinstaller = "pyinstaller"
+$pyinstaller = @("-m", "PyInstaller")
 try {
-    & $pyinstaller --version | Out-Null
+    python @pyinstaller --version | Out-Null
 } catch {
     throw "PyInstaller not found in the active environment. Install with: pip install pyinstaller"
 }
 
-& $pyinstaller --noconfirm ".\\ESDetectFrontend.spec"
+python @pyinstaller --noconfirm ".\\ESDetectFrontend.spec"
 if ($LASTEXITCODE -ne 0) {
     throw "PyInstaller failed with exit code $LASTEXITCODE"
 }
