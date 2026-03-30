@@ -1,0 +1,34 @@
+{
+  "db": {
+    "fs": 50.0,
+    "tau": 0.4,
+    "nplanes": 1,
+    "nchannels": 1,
+    "functional_chan": 1,
+    "do_registration": true
+  },
+  "ops": {
+    "nonrigid": false,
+    "batch_size": 500,
+    "maxregshift": 0.1,
+    "maxregshiftNR": 5,
+    "smooth_sigma": 1.15,
+    "snr_thresh": 1.2,
+    "1Preg": false,
+    "pre_smooth": 2,
+    "spatial_taper": 40,
+    "roidetect": true,
+    "sparse_mode": true,
+    "anatomical_only": 0,
+    "denoise": 0,
+    "diameter": [
+      16.0,
+      16.0
+    ],
+    "threshold_scaling": 0.9,
+    "spatial_scale": 1,
+    "max_overlap": 0.85,
+    "soma_crop": false,
+    "cellprob_threshold": 0.0
+  }
+}

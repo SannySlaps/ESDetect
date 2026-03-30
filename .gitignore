@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Runtime outputs
+logs/
+tmp/
+tmp_*/
+runs/
+suite2p_sandbox/runs/
+
+# Local data and analysis outputs
+*.bin
+*.tif
+*.tiff
+*.npy
+*.npz
+*.csv
+*.xlsx
+*.png
+*.jpg
+*.jpeg
+*.mp4
+*.md.bak
+
+# Session / project data
+analysis/
+raw_*/
+metadata/
+
+# Local settings
+stim_gui_settings.json
+notification_settings.json
