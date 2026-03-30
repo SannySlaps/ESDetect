@@ -1,6 +1,6 @@
-# Suite2p ESDetect Frontend
+# ESDetect
 
-Custom Suite2p / ESDetect desktop frontend for:
+Custom Suite2p / ESDetect desktop app for:
 - Windows-side session processing
 - ROI curation
 - post-run review
@@ -13,8 +13,8 @@ Custom Suite2p / ESDetect desktop frontend for:
   - Windows and Mac launchers
   - acquisition docs
 - `suite2p_frontend/`
-  - base Suite2p frontend
-  - ESDetect frontend
+  - base Suite2p frontend code
+  - ESDetect app code
   - ESDetect Windows and Mac launchers
   - Mac curation setup guide
 - `suite2p_sandbox/`
@@ -44,6 +44,31 @@ Custom Suite2p / ESDetect desktop frontend for:
 - review overlays / figures
 - export summaries and reports
 
+## Environment files
+
+Frontend / curation / downstream:
+- `environment.frontend.yml`
+- `requirements.frontend.txt`
+- use this env to run ESDetect and build packaged desktop apps
+
+Acquisition:
+- `environment.acquisition.yml`
+- `requirements.acquisition.txt`
+
+Suggested conda setup:
+
+```bash
+conda env create -f environment.frontend.yml
+conda env create -f environment.acquisition.yml
+```
+
+For desktop app packaging:
+
+```bash
+conda activate esdetect-frontend
+pip install pyinstaller
+```
+
 ## Portable-drive workflow
 The app includes a `Portable Transfer` tab that can:
 - export unfinished sessions from a desktop project root to a portable project root
@@ -55,13 +80,46 @@ The app includes a `Portable Transfer` tab that can:
 ### Windows
 - `suite2p_frontend/launch_ESDetect_frontend.cmd`
 - `Acquisition and Stim/launch_acquisition_windows.cmd`
+- `suite2p_frontend/build_ESDetect_frontend_exe.ps1`
 
 ### Mac
 - `suite2p_frontend/launch_ESDetect_frontend_mac.command`
 - `Acquisition and Stim/launch_acquisition_mac.command`
+- `suite2p_frontend/build_ESDetect_frontend_mac.command`
 
 See:
 - `suite2p_frontend/MAC_CURATION_SETUP.md`
+
+## Packaging ESDetect
+
+### Windows `.exe`
+
+```powershell
+cd suite2p_frontend
+conda activate esdetect-frontend
+.\build_ESDetect_frontend_exe.ps1
+```
+
+Expected output:
+- `suite2p_frontend/dist/ESDetect/ESDetect.exe`
+
+### macOS `.app`
+
+```bash
+cd suite2p_frontend
+conda activate esdetect-frontend
+chmod +x build_ESDetect_frontend_mac.command
+./build_ESDetect_frontend_mac.command
+```
+
+Expected output:
+- `suite2p_frontend/dist/ESDetect/ESDetect.app`
+
+### Important note
+- Build the `.exe` on Windows.
+- Build the `.app` on macOS.
+- The packaged app still expects a usable external `suite2p` Python environment for subprocess-based processing tasks.
+- For curation/downstream-only use, this is usually fine.
 
 ## Minimal setup notes
 - Python environment should include:

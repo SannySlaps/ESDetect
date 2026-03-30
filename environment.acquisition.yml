@@ -1,0 +1,14 @@
+name: esdetect-acquisition
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - tifffile
+  - pyqt
+  - pyserial
+  - opencv
+  - pip
+  - pip:
+      - pymmcore-plus
+      - pycromanager

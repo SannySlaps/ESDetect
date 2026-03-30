@@ -1,13 +1,18 @@
 from __future__ import annotations
 
+import sys
 import os
 import platform
 from pathlib import Path
-import sys
 
 
-APP_ROOT = Path(__file__).resolve().parents[1]
-INTEGRATION_ROOT = APP_ROOT.parent
+if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+    _BUNDLE_ROOT = Path(getattr(sys, "_MEIPASS")).resolve()
+    APP_ROOT = _BUNDLE_ROOT / "suite2p_frontend"
+    INTEGRATION_ROOT = _BUNDLE_ROOT
+else:
+    APP_ROOT = Path(__file__).resolve().parents[1]
+    INTEGRATION_ROOT = APP_ROOT.parent
 SANDBOX_ROOT = INTEGRATION_ROOT / "suite2p_sandbox"
 RUNS_ROOT = SANDBOX_ROOT / "runs"
 

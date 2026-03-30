@@ -1,0 +1,14 @@
+name: esdetect-frontend
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - scipy
+  - matplotlib
+  - pillow
+  - openpyxl
+  - tifffile
+  - pip
+  - pip:
+      - opencv-python

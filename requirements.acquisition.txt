@@ -1,0 +1,7 @@
+numpy
+tifffile
+PyQt5
+pyserial
+opencv-python
+pymmcore-plus
+pycromanager
