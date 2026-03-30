@@ -8,10 +8,14 @@ Custom Suite2p / ESDetect desktop frontend for:
 - portable-drive handoff for Mac curation/downstream work
 
 ## Included
+- `Acquisition and Stim/`
+  - trimmed acquisition app bundle
+  - Windows and Mac launchers
+  - acquisition docs
 - `suite2p_frontend/`
   - base Suite2p frontend
   - ESDetect frontend
-  - Windows and Mac launchers
+  - ESDetect Windows and Mac launchers
   - Mac curation setup guide
 - `suite2p_sandbox/`
   - processing / export scripts
@@ -49,12 +53,12 @@ The app includes a `Portable Transfer` tab that can:
 ## Launchers
 
 ### Windows
-- `suite2p_frontend/launch_suite2p_frontend.cmd`
 - `suite2p_frontend/launch_ESDetect_frontend.cmd`
+- `Acquisition and Stim/launch_acquisition_windows.cmd`
 
 ### Mac
-- `suite2p_frontend/launch_suite2p_frontend_mac.command`
 - `suite2p_frontend/launch_ESDetect_frontend_mac.command`
+- `Acquisition and Stim/launch_acquisition_mac.command`
 
 See:
 - `suite2p_frontend/MAC_CURATION_SETUP.md`

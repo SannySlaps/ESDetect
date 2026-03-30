@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import platform
 from pathlib import Path
+import sys
 
 
 APP_ROOT = Path(__file__).resolve().parents[1]
@@ -59,9 +60,10 @@ SUITE2P_ENV_PYTHON = _default_suite2p_python()
 
 ACQUISITION_APP_SOURCE = INTEGRATION_ROOT / "Acquisition and Stim" / "Calcium_Imaging_copy.py"
 if platform.system() == "Windows":
-    ACQUISITION_APP_PYTHON = INTEGRATION_ROOT / "Acquisition and Stim" / "venv" / "Scripts" / "python.exe"
+    _acquisition_python = INTEGRATION_ROOT / "Acquisition and Stim" / "venv" / "Scripts" / "python.exe"
 else:
-    ACQUISITION_APP_PYTHON = INTEGRATION_ROOT / "Acquisition and Stim" / "venv" / "bin" / "python"
+    _acquisition_python = INTEGRATION_ROOT / "Acquisition and Stim" / "venv" / "bin" / "python"
+ACQUISITION_APP_PYTHON = _acquisition_python if _acquisition_python.exists() else Path(sys.executable)
 
 PREPARE_SCRIPT = SANDBOX_ROOT / "scripts" / "prepare_suite2p_session.py"
 RUN_SCRIPT = SANDBOX_ROOT / "scripts" / "run_suite2p_session.py"
