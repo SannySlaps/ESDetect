@@ -23,6 +23,9 @@ for pkg in ("PIL", "matplotlib", "numpy", "scipy", "openpyxl"):
         pass
 
 SPEC_DIR = Path.cwd()
+APP_BUNDLE_NAME = "ESDetect"
+APP_BUNDLE_ID = "com.sannyslaps.esdetect"
+APP_VERSION = "0.0.0"
 
 
 def collect_tree(src_rel, dest_root):
@@ -94,7 +97,15 @@ coll = COLLECT(
 
 app = BUNDLE(
     coll,
-    name="ESDetect.app",
+    name=f"{APP_BUNDLE_NAME}.app",
     icon=None,
-    bundle_identifier=None,
+    bundle_identifier=APP_BUNDLE_ID,
+    info_plist={
+        "CFBundleName": APP_BUNDLE_NAME,
+        "CFBundleDisplayName": APP_BUNDLE_NAME,
+        "CFBundleIdentifier": APP_BUNDLE_ID,
+        "CFBundleShortVersionString": APP_VERSION,
+        "CFBundleVersion": APP_VERSION,
+        "NSHighResolutionCapable": True,
+    },
 )
